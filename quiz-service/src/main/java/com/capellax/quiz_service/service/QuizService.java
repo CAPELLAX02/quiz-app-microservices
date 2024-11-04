@@ -1,7 +1,9 @@
 package com.capellax.quiz_service.service;
 
 import com.capellax.quiz_service.dao.QuizDAO;
+import com.capellax.quiz_service.feign.QuizInterface;
 import com.capellax.quiz_service.model.QuestionWrapper;
+import com.capellax.quiz_service.model.Quiz;
 import com.capellax.quiz_service.model.Response;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import java.util.List;
 public class QuizService {
 
     private final QuizDAO quizDAO;
+    private final QuizInterface quizInterface;
 
     @Transactional
     public ResponseEntity<String> createQuiz(
@@ -24,10 +27,18 @@ public class QuizService {
             int numQ,
             String title
     ) {
-        // TODO: Call the "http://localhost:8080/question/generate"
-        //  endpoint to get the questions from the question service.
+        List<Integer> questionIds = quizInterface
+                .getQuestionsForQuiz(category, numQ)
+                .getBody();
 
-        return new ResponseEntity<>("Success", HttpStatus.CREATED);
+        Quiz quiz = new Quiz();
+
+        quiz.setTitle(title);
+        quiz.setQuestionIds(questionIds);
+
+        quizDAO.save(quiz);
+
+        return new ResponseEntity<>("Quiz created successfully.", HttpStatus.CREATED);
     }
 
     public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(Integer id) {

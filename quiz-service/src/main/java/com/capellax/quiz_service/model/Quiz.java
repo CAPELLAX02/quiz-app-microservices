@@ -21,12 +21,7 @@ public class Quiz {
 
     private String title;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(
-            name = "quiz_questions",
-            joinColumns = @JoinColumn(name = "quiz_id"),
-            inverseJoinColumns = @JoinColumn(name = "questions_id")
-    )
-    private List<QuestionW> questions;
+    @ElementCollection
+    private List<Integer> questionIds;
 
 }
