@@ -1,5 +1,6 @@
 package com.capellax.quiz_service.controller;
 
+import com.capellax.quiz_service.dto.QuizDTO;
 import com.capellax.quiz_service.model.QuestionWrapper;
 import com.capellax.quiz_service.model.Response;
 import com.capellax.quiz_service.service.QuizService;
@@ -18,11 +19,14 @@ public class QuizController {
 
     @PostMapping("/create")
     public ResponseEntity<String> createQuiz(
-            @RequestParam String category,
-            @RequestParam int numQ,
-            @RequestParam String title
+            @RequestBody QuizDTO quizDTO
     ) {
-        return quizService.createQuiz(category, numQ, title);
+        return quizService
+                .createQuiz(
+                        quizDTO.getCategoryName(),
+                        quizDTO.getNumQuestions(),
+                        quizDTO.getTitle()
+                );
     }
 
     @GetMapping("/{id}")
