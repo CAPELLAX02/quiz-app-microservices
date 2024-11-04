@@ -1,6 +1,8 @@
 package com.capellax.question_service.controller;
 
 import com.capellax.question_service.model.Question;
+import com.capellax.question_service.model.QuestionWrapper;
+import com.capellax.question_service.model.Response;
 import com.capellax.question_service.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,28 @@ public class QuestionController {
             @RequestBody Question question
     ) {
         return questionService.addQuestion(question);
+    }
+
+    @GetMapping("/generate")
+    public ResponseEntity<List<Integer>> getQuestionsForQuiz(
+            @RequestParam String categoryName,
+            @RequestParam Integer numQuestions
+    ) {
+        return questionService.getQuestionsForQuiz(categoryName, numQuestions);
+    }
+
+    @PostMapping("/getQuestions")
+    public ResponseEntity<List<QuestionWrapper>> getQuestionsFromId(
+            @RequestBody List<Integer> questionIds
+    ) {
+        return questionService.getQuestionFromId(questionIds);
+    }
+
+    @PostMapping("/getScore")
+    public ResponseEntity<Integer> getScore(
+            @RequestBody List<Response> responses
+    ) {
+        return questionService.getScore(responses);
     }
 
 }
