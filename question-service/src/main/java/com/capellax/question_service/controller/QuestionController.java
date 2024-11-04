@@ -5,6 +5,7 @@ import com.capellax.question_service.model.QuestionWrapper;
 import com.capellax.question_service.model.Response;
 import com.capellax.question_service.service.QuestionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,8 @@ import java.util.List;
 public class QuestionController {
 
     private final QuestionService questionService;
+
+    private final Environment environment;
 
     @GetMapping("/allQuestions")
     public ResponseEntity<List<Question>> getAllQuestions() {
@@ -48,6 +51,7 @@ public class QuestionController {
     public ResponseEntity<List<QuestionWrapper>> getQuestionsFromId(
             @RequestBody List<Integer> questionIds
     ) {
+        System.out.println(environment.getProperty("local.server.port"));
         return questionService.getQuestionFromId(questionIds);
     }
 
