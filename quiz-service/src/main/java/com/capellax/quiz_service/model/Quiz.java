@@ -27,6 +27,6 @@ public class Quiz {
             joinColumns = @JoinColumn(name = "quiz_id"),
             inverseJoinColumns = @JoinColumn(name = "questions_id")
     )
-    private List<Question> questions;
+    private List<QuestionW> questions;
 
 }

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: question-service
+    name: quiz-service
   datasource:
     url: jdbc:postgresql://localhost:5432/quiz_service_db
     username: postgres
